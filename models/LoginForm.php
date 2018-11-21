@@ -6,7 +6,7 @@ use Yii;
 use yii\base\Model;
 
 /**
- * LoginForm is the model behind the login form.
+ * Форма входа
  *
  * @property User|null $user This property is read-only.
  *
@@ -35,6 +35,18 @@ class LoginForm extends Model
         ];
     }
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function attributeLabels()
+	{
+		return [
+			  'username' => 'Логин',
+			  'password' => 'Пароль',
+			  'rememberMe' => 'Запомнить',
+		];
+	}
+
     /**
      * Validates the password.
      * This method serves as the inline validation for password.
@@ -48,7 +60,7 @@ class LoginForm extends Model
             $user = $this->getUser();
 
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError($attribute, 'Неверней логин или пароль.');
             }
         }
     }

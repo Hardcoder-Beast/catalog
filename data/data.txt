@@ -1,0 +1,18 @@
+
+
+CREATE TABLE author (
+    author_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    author_name TEXT NOT NULL,
+    author_desc TEXT NULL );
+
+
+CREATE TABLE book (
+    book_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    book_name TEXT NOT NULL,
+    book_desc TEXT NULL );
+
+
+CREATE TABLE author_book (
+    author_book_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    author_id INTEGER NOT NULL,
+    book_id INTEGER NOT NULL );

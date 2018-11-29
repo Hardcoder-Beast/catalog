@@ -32,7 +32,10 @@ $config = [
 	  ],
 
 	  'components' => [
-			'cache'        => [
+		    'assetManager' => [
+			      'dirMode' => 0777
+		    ],
+		    'cache'        => [
 				  'class' => 'yii\caching\FileCache'
 			],
 			'user'         => [

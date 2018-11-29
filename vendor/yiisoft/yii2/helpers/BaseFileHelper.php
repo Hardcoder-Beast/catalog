@@ -622,6 +622,7 @@ class BaseFileHelper
         }
         try {
             if (!mkdir($path, $mode)) {
+            	echo print_r([$path, $mode], true);
                 return false;
             }
         } catch (\Exception $e) {

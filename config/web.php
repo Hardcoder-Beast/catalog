@@ -17,7 +17,7 @@ $config = [
 	  'sourceLanguage' => 'en-US',
 	  'language'       => 'ru-RU',
 
-	  'bootstrap' => [ 'log', 'api', 'debug' ],
+	  'bootstrap' => [  'api'/*, 'log', 'debug'*/ ],
 
 	  'controllerMap' => [
 			'site'   => 'app\controllers\SiteController',
@@ -48,15 +48,15 @@ $config = [
 			'errorHandler' => [
 				  'errorAction' => 'site/error'
 			],
-			'log'          => [
-				  'traceLevel' => YII_DEBUG ? 3 : 0,
-				  'targets'    => [
-						[
-							  'class'  => 'yii\log\FileTarget',
-							  'levels' => [ 'error', 'warning' ],
-						],
-				  ],
-			],
+			// 'log'          => [
+			// 	  'traceLevel' => YII_DEBUG ? 3 : 0,
+			// 	  'targets'    => [
+			// 			[
+			// 				  'class'  => 'yii\log\FileTarget',
+			// 				  'levels' => [ 'error', 'warning' ],
+			// 			],
+			// 	  ],
+			// ],
 
 			'db' => $db,
 
@@ -80,9 +80,9 @@ $config = [
 	  ],
 
 	  'modules' => [
-			'debug' => [
-				  'class' => 'yii\debug\Module'
-			],
+			// 'debug' => [
+			// 	  'class' => 'yii\debug\Module'
+			// ],
 			'api'  => [
 				  'class' => 'app\modules\api\ApiModule'
 			]
@@ -90,16 +90,16 @@ $config = [
 ];
 
 if( YII_ENV_DEV ) {
-	$config[ 'bootstrap' ][] = 'debug';
-	$config[ 'modules' ][ 'debug' ] = [
-		  'class' => 'yii\debug\Module'
-	];
+	// $config[ 'bootstrap' ][] = 'debug';
+	// $config[ 'modules' ][ 'debug' ] = [
+	// 	  'class' => 'yii\debug\Module'
+	// ];
 
-	$config[ 'bootstrap' ][] = 'gii';
-	$config[ 'modules' ][ 'gii' ] = [
-		  'class'      => 'yii\gii\Module',
-		  'allowedIPs' => [ '127.0.0.1', '::1' ]
-	];
+	// $config[ 'bootstrap' ][] = 'gii';
+	// $config[ 'modules' ][ 'gii' ] = [
+	// 	  'class'      => 'yii\gii\Module',
+	// 	  'allowedIPs' => [ '127.0.0.1', '::1' ]
+	// ];
 }
 
 return $config;

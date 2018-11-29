@@ -41,8 +41,8 @@
     ServerAdmin yudaev.d@gmail.com
     ServerName virtual_host_name
 
-    DocumentRoot /path_to_project_dir/web
-    <Directory /path_to_project_dir/web>
+    DocumentRoot /catalog/web
+    <Directory /catalog/web>
         Options FollowSymLinks
         AllowOverride All
     </Directory>
@@ -57,6 +57,19 @@
 В рамках тестового задания было реализовано небольшое веб-приложение на базе Yii2 (basic), и размещено на GitHub'е:  
 [ссылка на репозиторий](https://github.com/Hardcoder-Beast/catalog),  
 [ссылка на скачивание ZIP-архива](https://github.com/Hardcoder-Beast/catalog/archive/master.zip).  
+
+После загрузки проекта из репозитория, например командой git clone:
+```
+git clone https://github.com/Hardcoder-Beast/catalog.git
+```
+Необходимо будет предоставить полный доступ на чтение и запись для временных файлов следующими командами:
+```
+chmod -Rf 0777 catalog/data
+chmod -Rf 0777 catalog/web/assets
+chmod -Rf 0777 catalog/runtime
+```
+
+После чего приложение должно запуститься.
 
 #### Входные точки приложения
 **1. Публичная часть**

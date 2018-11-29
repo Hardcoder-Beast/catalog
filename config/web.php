@@ -33,7 +33,9 @@ $config = [
 
 	  'components' => [
 		    'assetManager' => [
-			      'dirMode' => 0777
+			      'dirMode' => 0777,
+			      'basePath' => '@webroot/tmp',
+				  'baseUrl' => '@web/tmp'
 		    ],
 		    'cache'        => [
 				  'class' => 'yii\caching\FileCache'

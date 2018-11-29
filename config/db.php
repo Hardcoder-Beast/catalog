@@ -11,15 +11,6 @@ exec('chmod -f 0777 '.$dbDirFiles);
 exec('chown -Rf "www-data":"www-data" '.$dbDir);
 exec('chown -f "www-data":"www-data" '.$dbDirFiles);
 
-
-// $root = __DIR__ . '/../';
-//
-//
-//
-// chmod($root.'runtime/', 0777);
-// chmod($root.'runtime/', 0777);
-
-
 /**
  *  Конфигурация доступа к БД
  */

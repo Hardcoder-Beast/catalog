@@ -32,11 +32,6 @@ $config = [
 	  ],
 
 	  'components' => [
-		    'assetManager' => [
-			      'dirMode' => 0777,
-			      'basePath' => '@webroot/tmp',
-				  'baseUrl' => '@web/tmp'
-		    ],
 		    'cache'        => [
 				  'class' => 'yii\caching\FileCache'
 			],
@@ -89,7 +84,7 @@ $config = [
 	  ]
 ];
 
-if( YII_ENV_DEV ) {
+// if( YII_ENV_DEV ) {
 	// $config[ 'bootstrap' ][] = 'debug';
 	// $config[ 'modules' ][ 'debug' ] = [
 	// 	  'class' => 'yii\debug\Module'
@@ -100,6 +95,6 @@ if( YII_ENV_DEV ) {
 	// 	  'class'      => 'yii\gii\Module',
 	// 	  'allowedIPs' => [ '127.0.0.1', '::1' ]
 	// ];
-}
+// }
 
 return $config;

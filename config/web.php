@@ -32,9 +32,9 @@ $config = [
 	  ],
 
 	  'components' => [
-			// 'cache'        => [
-			// 	  'class' => 'yii\caching\FileCache'
-			// ],
+			'cache'        => [
+				  'class' => 'yii\caching\FileCache'
+			],
 			'user'         => [
 				  'identityClass'   => 'app\models\User',
 				  'enableAutoLogin' => false
@@ -75,9 +75,9 @@ $config = [
 	  ],
 
 	  'modules' => [
-			'debug' => [
-				  'class' => 'yii\debug\Module'
-			],
+			// 'debug' => [
+			// 	  'class' => 'yii\debug\Module'
+			// ],
 			'api'  => [
 				  'class' => 'app\modules\api\ApiModule'
 			]
@@ -90,11 +90,11 @@ if( YII_ENV_DEV ) {
 	// 	  'class' => 'yii\debug\Module'
 	// ];
 
-	$config[ 'bootstrap' ][] = 'gii';
-	$config[ 'modules' ][ 'gii' ] = [
-		  'class'      => 'yii\gii\Module',
-		  'allowedIPs' => [ '127.0.0.1', '::1' ]
-	];
+	// $config[ 'bootstrap' ][] = 'gii';
+	// $config[ 'modules' ][ 'gii' ] = [
+	// 	  'class'      => 'yii\gii\Module',
+	// 	  'allowedIPs' => [ '127.0.0.1', '::1' ]
+	// ];
 }
 
 return $config;

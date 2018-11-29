@@ -29,8 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
 					  'headerOptions' => ['style' => 'width: 50px;'],
 				],
 
-				'author_id',
-
 				'author_name',
 
 				[

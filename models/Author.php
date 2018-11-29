@@ -6,13 +6,14 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
+
 /**
  * Модель автора книги
  *
  * @property int    $author_id
  * @property string $author_name
  */
-class Author extends \yii\db\ActiveRecord {
+class Author extends ActiveRecord {
 	/**
 	 * @var array $booksAuthorList св-во для хранение списка идентификаторов связанных записей моделей Book
 	 */
@@ -97,6 +98,9 @@ class Author extends \yii\db\ActiveRecord {
 	}
 
 
+	/**
+	 * @return int
+	 */
 	public function getBookQty() {
 		$result = 0;
 		$books = $this->getBooks();
@@ -114,6 +118,10 @@ class Author extends \yii\db\ActiveRecord {
 	}
 
 
+	/**
+	 * @param string $name
+	 * @return mixed
+	 */
 	public function __get($name) {
 		if( $name === 'author_books' ) {
 			$list = $this->getAuthorBooksList();
@@ -126,6 +134,10 @@ class Author extends \yii\db\ActiveRecord {
 	}
 
 
+	/**
+	 * @param string $name
+	 * @param mixed  $value
+	 */
 	public function __set($name, $value) {
 		if( $name === 'author_books' ) {
 			$this->setAuthorBooksList( ArrayHelper::getValue( $value, 'author_books', $value ) );
@@ -135,6 +147,12 @@ class Author extends \yii\db\ActiveRecord {
 	}
 
 
+	/**
+	 * @param $insert
+	 * @param $changedAttributes
+	 * @throws \Throwable
+	 * @throws \yii\db\StaleObjectException
+	 */
 	public function afterSave($insert, $changedAttributes) {
 		$oldAuthorsBook = $this->getAuthorBooks()->all();
 

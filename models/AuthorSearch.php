@@ -2,13 +2,12 @@
 
 namespace app\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Author;
+
 
 /**
- * AuthorSearch represents the model behind the search form of `app\models\Author`.
+ *   Модель поиска авторов.
  */
 class AuthorSearch extends Author
 {
@@ -32,13 +31,10 @@ class AuthorSearch extends Author
     }
 
     /**
-     * Creates data provider instance with search query applied
-     *
      * @param array $params
      *
      * @return ActiveDataProvider
      */
-
     public function search($params)
     {
         $query = Author::find();
@@ -52,6 +48,10 @@ class AuthorSearch extends Author
         if (!$this->validate()) {
             return $dataProvider;
         }
+
+	    $query->andFilterWhere([
+		      'author_id' => $this->author_id
+	    ]);
 
         $query->andFilterWhere(['like', 'author_name', $this->author_name])
               ->andFilterWhere(['like', 'author_desc', $this->author_desc]);

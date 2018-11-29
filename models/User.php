@@ -2,14 +2,34 @@
 
 namespace app\models;
 
+use phpDocumentor\Reflection\Types\Integer;
+use phpDocumentor\Reflection\Types\String_;
+
+/**
+ *  Class User - модель пользователя.
+ * @package app\models
+ */
 class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
 {
+	/**
+	 * @var Integer - УН
+	 */
     public $id;
+	/**
+	 * @var String_ - имя пользователя
+	 */
     public $username;
+	/**
+	 * @var String_ - пароль
+	 */
     public $password;
     public $authKey;
     public $accessToken;
 
+
+	/**
+	 * @var array $users - временный статический пользователь для пробных работ с системой
+	 */
     private static $users = [
         '100' => [
             'id' => '100',
@@ -26,8 +46,9 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return isset( self::$users[$id] ) ? new static( self::$users[$id] ) : null;
     }
+
 
     /**
      * {@inheritdoc}
@@ -43,10 +64,11 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
         return null;
     }
 
+
     /**
-     * Finds user by username
+     *  Найти по имени пользователя
      *
-     * @param string $username
+     * @param string $username - имя пользователя
      * @return static|null
      */
     public static function findByUsername($username)
@@ -60,6 +82,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
         return null;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -67,6 +90,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     {
         return $this->id;
     }
+
 
     /**
      * {@inheritdoc}
@@ -76,6 +100,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
         return $this->authKey;
     }
 
+
     /**
      * {@inheritdoc}
      */
@@ -84,11 +109,12 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
         return $this->authKey === $authKey;
     }
 
+
     /**
-     * Validates password
+     *  Проверяет правильность пароль
      *
-     * @param string $password password to validate
-     * @return bool if password provided is valid for current user
+     * @param string $password - пароль для проверки
+     * @return bool - признак правильности пароль
      */
     public function validatePassword($password)
     {

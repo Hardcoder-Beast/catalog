@@ -7,7 +7,6 @@ use yii\helpers\Html;
 $bookName = $model->book_name ? $model->book_name : $model->book_id;
 $this->title = 'Редактирование: ' . $bookName;
 $this->params['breadcrumbs'][] = ['label' => 'Книги', 'url' => ['index']];
-$this->params['breadcrumbs'][] = [ 'label' => $bookName, 'url' => [ 'view', 'id' => $bookName]];
 $this->params['breadcrumbs'][] = 'Обновление';
 ?>
 <div class="book-update">

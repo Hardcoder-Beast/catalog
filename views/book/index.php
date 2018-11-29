@@ -28,8 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
              'headerOptions' => ['style' => 'width: 50px;'],
             ],
 
-            'book_id',
-
             'book_name',
 
             'book_desc',

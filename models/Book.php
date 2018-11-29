@@ -105,6 +105,10 @@ class Book extends ActiveRecord {
 	}
 
 
+	/**
+	 * @param string $name
+	 * @return mixed
+	 */
 	public function __get($name) {
 		if( $name === 'books_author' ) {
 			$list = $this->getBooksAuthorList();
@@ -117,6 +121,10 @@ class Book extends ActiveRecord {
 	}
 
 
+	/**
+	 * @param string $name
+	 * @param mixed  $value
+	 */
 	public function __set($name, $value) {
 		if( $name === 'books_author' ) {
 			$this->setBooksAuthorList( ArrayHelper::getValue( $value, 'books_author', $value ) );
@@ -126,6 +134,12 @@ class Book extends ActiveRecord {
 	}
 
 
+	/**
+	 * @param $insert
+	 * @param $changedAttributes
+	 * @throws \Throwable
+	 * @throws \yii\db\StaleObjectException
+	 */
 	public function afterSave($insert, $changedAttributes)
 	{
 		$oldBookAuthors = $this->getBookAuthors()->all();

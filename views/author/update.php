@@ -8,7 +8,6 @@ use yii\helpers\Html;
 $authorName = $model->author_name ? $model->author_name : $model->author_id;
 $this->title = 'Редактирование: ' . $authorName;
 $this->params['breadcrumbs'][] = ['label' => 'Авторы', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $authorName, 'url' => ['view', 'id' => $authorName]];
 $this->params['breadcrumbs'][] = 'Обновление';
 ?>
 <div class="author-update">

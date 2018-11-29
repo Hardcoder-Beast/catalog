@@ -5,11 +5,11 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 
+
 /**
- * Форма входа
+ * Форма входа (модель)
  *
- * @property User|null $user This property is read-only.
- *
+ * @property User|null $user - модель только для чтения.
  */
 class LoginForm extends Model
 {
@@ -21,19 +21,17 @@ class LoginForm extends Model
 
 
     /**
-     * @return array the validation rules.
+     * @return array список валидаций
      */
     public function rules()
     {
         return [
-            // username and password are both required
             [['username', 'password'], 'required'],
-            // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
-            // password is validated by validatePassword()
-            ['password', 'validatePassword'],
+            ['password', 'validatePassword']
         ];
     }
+
 
 	/**
 	 * {@inheritdoc}
@@ -48,11 +46,10 @@ class LoginForm extends Model
 	}
 
     /**
-     * Validates the password.
-     * This method serves as the inline validation for password.
+     *  Проверка пароля.
      *
-     * @param string $attribute the attribute currently being validated
-     * @param array $params the additional name-value pairs given in the rule
+     * @param string $attribute - атрибут для проверки
+     * @param array $params - дополнительные параметры
      */
     public function validatePassword($attribute, $params)
     {
@@ -60,32 +57,33 @@ class LoginForm extends Model
             $user = $this->getUser();
 
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Неверней логин или пароль.');
+                $this->addError($attribute, 'Неверный логин или пароль.');
             }
         }
     }
 
     /**
-     * Logs in a user using the provided username and password.
-     * @return bool whether the user is logged in successfully
+     *  Попытка пользователя зайти в систему.
+     *
+     * @return bool - результат логина
      */
     public function login()
     {
-        if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+        if ( $this->validate() ) {
+            return Yii::$app->user->login( $this->getUser(), $this->rememberMe ? 3600*24*30 : 0 );
         }
         return false;
     }
 
     /**
-     * Finds user by [[username]]
+     *  Найти пользователя по имени пользователя.
      *
-     * @return User|null
+     * @return User|null - модель только для чтения.
      */
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = User::findByUsername( $this->username );
         }
 
         return $this->_user;

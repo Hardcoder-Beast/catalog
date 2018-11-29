@@ -2,16 +2,16 @@
 
 namespace app\models;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
- *  Таблица связей многие ко многим
+ *  Таблица связей книг с авторами многие ко многим
  *
  * @property int $book_author_id
  * @property int $book_id
  * @property int $author_id
  */
-class AuthorBook extends \yii\db\ActiveRecord
+class AuthorBook extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -20,11 +20,6 @@ class AuthorBook extends \yii\db\ActiveRecord
     {
         return 'author_book';
     }
-
-	public static function className()
-	{
-		return get_called_class();
-	}
 
     /**
      * {@inheritdoc}

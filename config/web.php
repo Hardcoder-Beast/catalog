@@ -1,42 +1,47 @@
 <?php
 /**
- *  Конфигурация приложения
+ *  Конфигурация доступа к БД
  */
-
-
 $db = require __DIR__ . '/db.php';
 
+/**
+ *  Конфигурация приложения
+ */
 $config = [
-	  'id'        => 'basic',
-	  'homeUrl'   => '/site/index',
-	  'name'      => 'Главная',
-	  'basePath'  => dirname( __DIR__ ),
-	  'bootstrap' => [ 'log', 'rest', 'debug' ],
+	  'id'                  => 'app',
+	  'basePath'            => dirname( __DIR__ ),
+	  'homeUrl'             => '/site/index',
+	  'name'                => 'Главная',
+	  'controllerNamespace' => 'app',
 
 	  'sourceLanguage' => 'en-US',
-	  'language' => 'ru-RU',
+	  'language'       => 'ru-RU',
+
+	  'bootstrap' => [ 'log', 'api', 'debug' ],
+
+	  'controllerMap' => [
+			'site'   => 'app\controllers\SiteController',
+			'admin'  => 'app\controllers\AdminController',
+			'book'   => 'app\controllers\BookController',
+			'author' => 'app\controllers\AuthorController'
+	  ],
 
 	  'aliases'    => [
 			'@bower' => '@vendor/bower-asset',
-			'@npm'   => '@vendor/npm-asset',
+			'@npm'   => '@vendor/npm-asset'
 	  ],
+
 	  'components' => [
-			'request'      => [
-				  'cookieValidationKey' => 'SjNqZovxMEaQynEU0FmjAa7cfseyTZmR',
-			],
 			'cache'        => [
-				  'class' => 'yii\caching\FileCache',
+				  'class' => 'yii\caching\FileCache'
 			],
 			'user'         => [
 				  'identityClass'   => 'app\models\User',
-				  'enableAutoLogin' => true,
+				  'enableAutoLogin' => false
+
 			],
 			'errorHandler' => [
-				  'errorAction' => 'site/error',
-			],
-			'mailer'       => [
-				  'class'            => 'yii\swiftmailer\Mailer',
-				  'useFileTransport' => true,
+				  'errorAction' => 'site/error'
 			],
 			'log'          => [
 				  'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -48,26 +53,33 @@ $config = [
 				  ],
 			],
 
-			'db'           => $db,
+			'db' => $db,
 
 			'urlManager' => [
+				  'class'           => 'yii\web\UrlManager',
 				  'enablePrettyUrl' => true,
+				  'showScriptName'  => false,
 				  'rules'           => [
-					  // URL RULES:
-					  '/'                                      => 'site/index',
-					  '<controller:\w+>/<id:\d+>'              => '<controller>/view',
-					  '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-					  '<controller:\w+>/<action:\w+>'          => '<controller>/<action>'
+					  //  Standard routes
+					  [ 'class' => 'yii\web\UrlRule', 'pattern' => '/', 'route' => 'site/index' ],
+
+					  [ 'class' => 'yii\web\UrlRule', 'pattern' => '<controller:[\w-]+>/<id:\d+>', 'route' => '<controller>/view' ],
+					  [ 'class' => 'yii\web\UrlRule', 'pattern' => '<controller:[\w-]+>/<action:[\w-]+>/<id:\d+>', 'route' => '<controller>/<action>/<id>' ],
+					  [ 'class' => 'yii\web\UrlRule', 'pattern' => '<controller:[\w-]+>/<action:[\w-]+>', 'route' => '<controller>/<action>' ]
 				  ]
-				]
 			],
 
-	  'modules'    => [
+			'request'    => [
+				  'cookieValidationKey' => 'SjNqZovxMEaQynEU0FmjAa7cfseyTZmR'
+			]
+	  ],
+
+	  'modules' => [
 			'debug' => [
-				  'class' => 'yii\debug\Module',
+				  'class' => 'yii\debug\Module'
 			],
-			'rest'  => [
-				  'class' => 'app\modules\rest\RestModule',
+			'api'  => [
+				  'class' => 'app\modules\api\ApiModule'
 			]
 	  ]
 ];
@@ -75,13 +87,13 @@ $config = [
 if( YII_ENV_DEV ) {
 	$config[ 'bootstrap' ][] = 'debug';
 	$config[ 'modules' ][ 'debug' ] = [
-		  'class' => 'yii\debug\Module',
+		  'class' => 'yii\debug\Module'
 	];
 
 	$config[ 'bootstrap' ][] = 'gii';
 	$config[ 'modules' ][ 'gii' ] = [
 		  'class'      => 'yii\gii\Module',
-		  'allowedIPs' => [ '127.0.0.1', '::1' ],
+		  'allowedIPs' => [ '127.0.0.1', '::1' ]
 	];
 }
 

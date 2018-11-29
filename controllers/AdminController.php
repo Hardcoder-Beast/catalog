@@ -2,125 +2,120 @@
 
 namespace app\controllers;
 
-use Yii;
+use yii\db\ActiveRecord;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use yii\helpers\ArrayHelper;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
 
+
+/**
+ * Class AdminController - контроллер взаимодействий административной панели.
+ * @package app\controllers
+ */
 class AdminController extends SiteController
 {
 
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => ['create', 'update', 'index', 'logout', 'view', 'delete'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ]
-                ]
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ]
-            ]
-        ];
-    }
+	/**
+	 * @var $modelClass - класс модели для дочерних контроллеров.
+	 */
+	public $modelClass;
 
 
-    /**
-     * Displays homepage.
+	/**
+	 *  Конфигурация действия logout() для всех наследующих данный класс контроллеров.
+	 *
+	 * @see Component::behaviors()
+	 * @return array - конфигурация behaviors.
+	 */
+	public function behaviors() {
+		return [
+			  'access' => [
+					'class' => AccessControl::className(),
+					'rules' => [
+						  [
+								'actions' => [ 'create', 'update', 'index', 'logout', 'view', 'delete' ],
+								'allow'   => true,
+								'roles'   => [ '@' ]
+						  ]
+					]
+			  ],
+			  'verbs'  => [
+					'class'   => VerbFilter::className(),
+					'actions' => [
+						  'delete' => [ 'post' ]
+					]
+			  ]
+		];
+	}
+
+
+	/**
+	 *  Действие входа в систему и
+	 * перенаправление на домашнюю страницу посетителей административной панели.
      *
      * @return string
      */
     public function actionIndex()
     {
-	    if (!Yii::$app->user->isGuest) {
-		    return Yii::$app->getResponse()->redirect( '/books/index' );
-	    }
-
-	    $model = new LoginForm();
-	    if ($model->load(Yii::$app->request->post()) && $model->login()) {
-		    return $this->goBack();
-	    }
-
-	    $model->password = '';
-	    return $this->render('login', [
-		      'model' => $model,
-	    ]);
+	    return parent::actionLogin();
     }
 
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
+	/**
+	 *  Перенаправление на домашнюю страницу.
+	 *
+	 * @return Response - ответ сервера.
+	 */
+	public function redirectHome()
+	{
+		return $this->redirect( [ '/books/index' ] );
+	}
 
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
 
-    /**
-     * Logout action.
-     *
-     * @return Response
-     */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
+	/**
+	 *  Находит модель по первичному ключу.
+	 *
+	 * @param integer $id первичный ключ записи
+	 * @return object загруженная модель
+	 * @throws NotFoundHttpException если по данному ключу не найдено записи.
+	 */
+	public function findModel($id)
+	{
+		/** @var ActiveRecord $newModel */
+		$newModel = new $this->modelClass;
 
-	    return $this->redirect(['/site/index']);
-    }
+		if (($model = $newModel::findOne($id)) !== null) {
+			return $model;
+		}
 
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
+		throw new NotFoundHttpException('Страница не найдена.');
+	}
 
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
 
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
+	/**
+	 * @return array - массив действий для дочерних контроллеров.
+	 */
+	public function actions()
+	{
+		return ArrayHelper::merge( parent::actions(), [
+			  'delete' => [
+					'class' => 'app\components\DeleteAction'
+			  ],
+			  'view' => [
+					'class' => 'app\components\CommonAction'
+			  ],
+			  'index' => [
+					'class' => 'app\components\IndexAction'
+			  ],
+			  'create' => [
+					'class' => 'app\components\CreateAction'
+			  ],
+			  'update' => [
+					'class' => 'app\components\UpdateAction'
+			  ]
+		] );
+	}
 
 }

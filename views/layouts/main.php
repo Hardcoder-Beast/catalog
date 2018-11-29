@@ -3,7 +3,6 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use app\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -47,10 +46,10 @@ AppAsset::register( $this );
 			  'options' => [ 'class' => 'navbar-nav navbar-right' ],
 			  'items'   => [
 					Yii::$app->user->isGuest ? (
-					[ 'label' => 'Вход', 'url' => [ '/admin/login' ], 'visible' => Yii::$app->user->isGuest ]
+					[ 'label' => 'Вход', 'url' => [ '/site/login' ], 'visible' => Yii::$app->user->isGuest ]
 					) : (
 						  '<li>'
-						  . Html::beginForm( [ '/admin/logout' ], 'post' )
+						  . Html::beginForm( [ '/site/logout' ], 'post' )
 						  . Html::submitButton(
 								'Выход (' . Yii::$app->user->identity->username . ')',
 								[ 'class' => 'btn btn-link logout', 'style' => 'padding: 15px;' ]
@@ -65,7 +64,6 @@ AppAsset::register( $this );
 			<?= Breadcrumbs::widget( [
 				  'links' => isset( $this->params[ 'breadcrumbs' ] ) ? $this->params[ 'breadcrumbs' ] : [],
 			] ) ?>
-			<?= Alert::widget() ?>
 			<?= $content ?>
 		</div>
 	</div>
